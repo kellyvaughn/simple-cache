@@ -1,8 +1,8 @@
 {
   "name": "simple-frontend-cacher",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/frontend-cacher.js",
   "scripts": {
     "build": "webpack --progress --colors",
     "start": "webpack-dev-server --progress --colors",
