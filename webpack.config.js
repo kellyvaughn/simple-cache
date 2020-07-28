@@ -15,12 +15,11 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'frontend-cacher.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
     contentBase: './dist'
   },
-  devtool: 'inline-source-map',
   watch: true
 };
