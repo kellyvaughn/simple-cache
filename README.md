@@ -1,8 +1,16 @@
 # Cacher
 
-A micro library that implements a flexible caching solution with configurations including expirations, never cache on a person resource basis and the ability to implement any storage mechanism you want so long as they implement the Storage API interface (getItem, setItem, clear, and removeItem)
+A tiny library which implements a flexible caching solution with configurations including expirations (only currently supporting hours), never expiring, and the ability to implement any storage mechanism you want so long as they implement the Storage API interface (getItem, setItem, clear, and removeItem)
 
-## How to use
+## To install
+
+```
+yarn add simple-frontend-cacher
+```
+
+## Usage
+
+The utility class implements the same interface you're used with the native (Storage Web API)[https://developer.mozilla.org/en-US/docs/Web/API/Storage]. Since cacher is just an es6 utility with all static methods and properties you can extend upon it by inheriting from it.
 
 ```js
     Cacher.setConfig({
@@ -24,4 +32,12 @@ A micro library that implements a flexible caching solution with configurations 
 
     // remove a single item
     Cacher.removeItem("resource")
+```
+
+Cacher is static utility class so to extend upon it you can simply inherit or inject the class.
+
+## To test
+
+```
+yarn test
 ```
