@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Cacher } from "./cacher";
+import { Cacher } from ".";
 
 describe("Cacher base", () => {
   const expirationTimeInHours = 1;
