@@ -75,14 +75,14 @@ The utility class implements the same interface you're used with the native (Sto
      * the library assumes soft deleting if you pass
      * expirations to removeItem and soft deleted items
      * can be retrieved from cache.getRemovedItem(original key)
-     * 
+     *
      * if expiration is set, this method will return the key to the archived resource
      * @returns {void|string}
      */
     cache.removeItem("resource", expiration)
 
     /**
-     * revert soft-deleted resource
+     * remove resource, no archive
      */
     cache.removeItem("resource")
     /**
