@@ -1,7 +1,6 @@
 # Cacher
 
-A tiny zero-dependency library which implements additional utilities on top Storage API we're all used to. Features include:
-
+A tiny, zero-dependency library which implements additional utilities on top of the Storage API we're all used to. Features include:
 - expiration on a global or resource level (hours, minutes, days)
 - implement any storage mechanism that implements the Storage API interface
 - archiving for building localized history of state

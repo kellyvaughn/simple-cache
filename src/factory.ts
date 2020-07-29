@@ -5,5 +5,5 @@ import { StorageAsyncDecorator } from "./async-decorator";
 
 export const FrontendCacher = (config: CacherConfig, key: string) => {
   config.storage = new StorageAsyncDecorator(config.storage);
-  const cacher = new Cacher(config, key);
+  return new Cacher(config, key);
 }
