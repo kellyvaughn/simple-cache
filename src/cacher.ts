@@ -5,10 +5,14 @@ export class Cacher {
   private expiration: IExpirationSettings;
   private readonly timeUnits: object;
   private archiveIfExpired: boolean;
-  private readonly cacheId: number;
+  private readonly cacheId: string;
 
-  constructor(config: CacherConfig) {
-    this.cacheId = Date.now();
+  constructor(config: CacherConfig, key: string) {
+    if (!key) {
+      throw new Error("A unique id must be set");
+    }
+
+    this.cacheId = `cacher-${key}`;
     this.timeUnits = {
       "days": 1440,
       "hours": 60,
@@ -22,6 +26,10 @@ export class Cacher {
     this.storage = config.storage || sessionStorage;
     this.archiveIfExpired = config.archiveIfExpired || false;
     this.setExpiration(config.expiration)
+  }
+
+  getKey() {
+    return this.cacheId;
   }
 
   setItem(key: string, value: any, expiration?: IExpirationSettings)  {
@@ -57,7 +65,7 @@ export class Cacher {
   archive(key: string, expiration: IExpirationSettings): string|null {
     const item = JSON.parse(this.storage.getItem(key));
     if (item && item.value) {
-      const archiveKey = `deleted-${key}-${Date.now()}`;
+      const archiveKey = `deleted-${this.cacheKey(key)}`;
       this.setItem(
         archiveKey,
         item,

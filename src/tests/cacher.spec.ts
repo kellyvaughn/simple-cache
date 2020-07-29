@@ -3,15 +3,13 @@ import { Cacher as CacherInstance } from "../cacher";
 import { getConfig, expired, hoursInTheFuture } from "../utils";
 
 describe("Cacher base", () => {
-  let found: object;
   let data: object;
   let sampleExpiration = { amount: 20, unit: "minutes" }
   let Cacher;
 
   beforeEach(() => {
-    found = {};
     data = { test: "test" };
-    Cacher = new CacherInstance(getConfig());
+    Cacher = new CacherInstance(getConfig(), "testing");
   });
 
   afterEach(() => {

@@ -7,7 +7,7 @@ describe("CACHE EXPIRATION", () => {
   let data: object;
   beforeEach(() => {
     data = { test: "test" };
-    Cacher = new CacherInstance(getConfig());
+    Cacher = new CacherInstance(getConfig(), "asd");
   });
 
   afterEach(() => {
