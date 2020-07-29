@@ -1,7 +1,8 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/factory.ts',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -15,8 +16,8 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   output: {
-    filename: 'frontend-cacher.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: './frontend-cacher.js',
+    path: path.resolve(__dirname),
   },
   devServer: {
     contentBase: './dist'
