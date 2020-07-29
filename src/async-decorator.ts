@@ -1,7 +1,7 @@
 import { StorageLike } from "./interfaces";
 
 export class StorageAsyncDecorator implements StorageLike {
-  constructor(private storage: StorageLike) {}
+  constructor(public storage: StorageLike) {}
 
   either(fn: (...args: any) => any | Promise<any>, ...args: any) {
     try {
@@ -31,5 +31,9 @@ export class StorageAsyncDecorator implements StorageLike {
 
   removeItem() {
     return this.either(this.storage.removeItem);
+  }
+
+  archive() {
+    return this.either(this.storage.archive);
   }
 }

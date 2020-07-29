@@ -1,6 +1,11 @@
 # Cacher
 
-A tiny library which implements additional utilities on top Storage API we're all used to. Features include: expiration on a global or resource level, the ability to implement any storage mechanism, soft deleting you'd so long as they implement the Storage API interface (getItem, setItem, clear, and removeItem)
+A tiny zero-dependency library which implements additional utilities on top Storage API we're all used to. Features include:
+
+- expiration on a global or resource level (hours, minutes, days)
+- implement any storage mechanism that implements the Storage API interface
+- archiving for building localized history of state
+- handle non-blocking and blocking storage operations
 
 ## To install
 

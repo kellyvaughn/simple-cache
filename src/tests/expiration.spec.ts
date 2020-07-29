@@ -1,9 +1,10 @@
 // @ts-nocheck
 import { Cacher as CacherInstance } from "../cacher";
-import { getConfig, expired } from "./utils";
+import { getConfig, expired, hoursInTheFuture } from "../utils";
 
 describe("CACHE EXPIRATION", () => {
   let Cacher: CacherInstance;
+  let data: object;
   beforeEach(() => {
     data = { test: "test" };
     Cacher = new CacherInstance(getConfig());
@@ -18,7 +19,7 @@ describe("CACHE EXPIRATION", () => {
   describe("Cacher.expireAt", () => {
     it("should return epoch an timestamp in the future based on expiration settings set by user", () => {
       expect(Cacher.expiresAt({ amount: 61, unit: "minutes" })).toBeGreaterThan(hoursInTheFuture(1));
-      expect(Cacher.expiresAt({ amount: 3, unit: "hours" })).toBeGreaterThan(hoursInTheFuture(3));
+      expect(Cacher.expiresAt({ amount: 3, unit: "hours" })).toBeGreaterThan(hoursInTheFuture(2));
       expect(Cacher.expiresAt({ amount: 3, unit: "days" })).toBeGreaterThan(hoursInTheFuture(71));
     });
 
@@ -28,7 +29,7 @@ describe("CACHE EXPIRATION", () => {
         unit: "minutes"
       })
 
-      expect(Cacher.expiresAt(null)).toBeGreaterThan(hoursInTheFuture(1));
+      expect(Cacher.expiresAt(null)).toBeGreaterThan(hoursInTheFuture(.99));
     });
   });
 
@@ -36,20 +37,25 @@ describe("CACHE EXPIRATION", () => {
 
   describe("Cacher.buildCachedItem", () => {
     it("should return an object with neverExpire set to true", () => {
-      const built = Cacher.buildCachedItem(data, true)
-      expect(built.expiresAt).toBe(true);
+      const built = Cacher.buildCachedItem({ amount: 20, unit: "days", expiresAt: true })
+      expect(built.expiresAt).toBeDefined();
+    });
+
+    it("should return an object with the expiration date", () => {
+      const built = Cacher.buildCachedItem({ amount: 20, unit: "minutes" });
+      expect(built.expiresAt).toBeDefined();
+    });
+
+    it("should return an object with neverExpire false", () => {
+      const built = Cacher.buildCachedItem({ amount: 20, unit: "minutes" })
+      expect(built.neverExpire).toBe(false);
     });
   });
 
-  describe("Cacher.buildCachedItem", () => {
-    it("should return an object with neverExpires undefined", () => {
-      const built = Cacher.buildCachedItem(data)
-      expect(built.expiresAt).toBeUndefined();
-    });
-  });
+
 
   describe("Cacher.expiresAtIsStillInFuture", () => {
-    it("return true if under one hour in the future", () => {
+    it("return true if under expiration", () => {
       expect(Cacher.expiresAtIsStillInFuture({ expiresAt: hoursInTheFuture(1) })).toBe(
         true
       );
@@ -79,10 +85,28 @@ describe("CACHE EXPIRATION", () => {
       expect(future).toBeGreaterThan(9 * 60);
     });
 
-    it("default settings: should default to 30 in the future", () => {
+    it("should default to default expiration settings to build future minutes", () => {
       const future = Cacher.futureMinutes();
-      expect(future).toBeLessThan(31 * 1);
-      expect(future).toBeGreaterThan(29 * 1);
+      expect(future).toBeLessThan(61 * 1);
+      expect(future).toBeGreaterThan(59 * 1);
+    });
+  });
+
+
+
+  describe("Cacher.neverExpires", () => {
+    it("should return true if expiration.neverExpire = true", () => {
+      expect(Cacher.neverExpires({ neverExpire: true })).toBe(true)
+    });
+
+    it("should return false if not set and expiration default is false", () => {
+      Cacher.setExpiration({ amount: 20, unit: "months", neverExpire: false })
+      expect(Cacher.neverExpires()).toBe(false)
+    });
+
+    it("should return false if not set", () => {
+      Cacher.setExpiration()
+      expect(Cacher.neverExpires()).toBe(false)
     });
   });
 });

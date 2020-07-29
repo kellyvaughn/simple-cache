@@ -1,6 +1,7 @@
 export interface CacherConfig {
   storage?: StorageLike
   expiration?: IExpirationSettings
+  archiveIfExpired ?: boolean
 }
 
 export interface IExpirationSettings {
@@ -12,6 +13,7 @@ export interface IExpirationSettings {
 export interface IResource {
   expiresAt: number
   neverExpire?: boolean
+  expiration?: IExpirationSettings
   value: any
 }
 
