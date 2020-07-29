@@ -1,43 +1,22 @@
 // @ts-nocheck
-import { Cacher } from ".";
+import { Cacher as CacherInstance } from "../cacher";
+import { getConfig } from "./utils";
 
 describe("Cacher base", () => {
-  const expirationTimeInHours = 1;
-  const expired = new Date().setHours(
-    new Date().getHours() - expirationTimeInHours
-  );
-  const oneHour = new Date().setHours(
-    new Date().getHours() + expirationTimeInHours
-  );
-  const twoHour = new Date().setHours(new Date().getHours() + 2);
-  let found;
-  let data;
-  let cached = JSON.stringify({ value: { test: "test" }, expiresAt: oneHour });
+  let found: object;
+  let data: object;
+  let Cacher;
 
   beforeEach(() => {
+    found = {};
     data = { test: "test" };
-    const storage: Storage = {
-      getItem: jest.fn(() => (found = cached)),
-      setItem: jest.fn(),
-      removeItem: jest.fn(),
-    };
-
-    Cacher.setConfig({
-      storage,
-      expirationTimeInHours,
-    });
+    Cacher = new CacherInstance(getConfig());
   });
 
   afterEach(() => {
     Cacher.storage.getItem = jest.fn(() => ({ test: "test" }));
   });
 
-  describe("Cacher.expireAt", () => {
-    it("should return one hour from now", () => {
-      expect(Cacher.expiresAt).toBeGreaterThan(expired);
-      expect(Cacher.expiresAt).not.toBeGreaterThan(twoHour);
-    });
-  });
 
   describe("Cacher.hasValue", () => {
     it("return false if key and value arent set", () => {
@@ -55,25 +34,15 @@ describe("Cacher base", () => {
       expect(Cacher.storage.setItem).toBeCalled();
     });
 
+    it("should set an item in Cacher.storage with the custom expiration set", () => {
+      const value = Cacher.setItem("test", { ...data }, true, { amount: 2, unit: "hours" });
+      expect(Cacher.storage.setItem).toBeCalled();
+      expect(value && JSON.parse(value).value.neverExpire).toEqual(true);
+    });
+
     it("should NOT set item if  key or value is empty", () => {
       Cacher.setItem();
       expect(Cacher.storage.setItem).not.toBeCalled();
-    });
-  });
-
-  describe("Cacher.expiresAtIsStillInFuture", () => {
-    it("return true if under one hour in the future", () => {
-      expect(Cacher.expiresAtIsStillInFuture({ expiresAt: oneHour })).toBe(
-        true
-      );
-    });
-
-    it("return false if over one hour in the future", () => {
-      const resource = {
-        expiresAt: expired,
-      };
-
-      expect(Cacher.expiresAtIsStillInFuture(resource)).toBe(false);
     });
   });
 
@@ -95,7 +64,7 @@ describe("Cacher base", () => {
       Cacher.storage.getItem = jest.fn(() => {
         JSON.stringify({
           value: "test",
-          expiresAt: twoHour,
+          expiresAt: hoursInTheFuture(2),
         });
       });
 
@@ -105,7 +74,7 @@ describe("Cacher base", () => {
       expect(JSON.parse(found).value).toMatchObject(JSON.parse(cached).value);
     });
 
-    it("should return if resource is set to never expire", () => {
+    it("should always return if resource is set to never expire", () => {
       Cacher.storage.getItem = jest.fn(() => {
         JSON.stringify({
           value: "test",
@@ -118,5 +87,13 @@ describe("Cacher base", () => {
       expect(Cacher.storage.getItem).toBeCalled();
       expect(Cacher.storage.removeItem).not.toBeCalled();
     });
+  });
+
+  describe("removeItem", () => {
+    it("should remove item", () => {
+
+    });
+
+
   });
 });

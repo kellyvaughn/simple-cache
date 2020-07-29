@@ -2,6 +2,9 @@
   "name": "simple-frontend-cacher",
   "version": "1.0.4",
   "description": "",
+  "dependencies": {
+    "frontend-cacher": "https://github.com/the-taproom/frontend-cacher.git"
+  },
   "main": "./dist/frontend-cacher.js",
   "scripts": {
     "build": "webpack --progress --colors",
