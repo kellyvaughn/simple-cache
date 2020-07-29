@@ -1,6 +1,6 @@
 {
   "name": "simple-frontend-cacher",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "dependencies": {
     "frontend-cacher": "https://github.com/the-taproom/frontend-cacher.git"
