@@ -9,7 +9,7 @@ A tiny, zero-dependency library which implements additional utilities on top of 
 ## To install
 
 ```
-yarn add simple-frontend-cacher
+yarn add simple-cache
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ yarn add simple-frontend-cacher
 The utility class implements the same interface you're used with the native (Storage Web API)[https://developer.mozilla.org/en-US/docs/Web/API/Storage].
 
 ```js
-    const cache = new Cacher({
+    const cache = new Cache({
       storage: localStorage || sessionStorage,
       expiration: {
         amount: 1,
