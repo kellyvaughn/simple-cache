@@ -1,1 +1,136 @@
-!function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.SimpleCache=e():t.SimpleCache=e()}(window,(function(){return function(t){var e={};function r(n){if(e[n])return e[n].exports;var i=e[n]={i:n,l:!1,exports:{}};return t[n].call(i.exports,i,i.exports,r),i.l=!0,i.exports}return r.m=t,r.c=e,r.d=function(t,e,n){r.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},r.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},r.t=function(t,e){if(1&e&&(t=r(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)r.d(n,i,function(e){return t[e]}.bind(null,i));return n},r.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return r.d(e,"a",e),e},r.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},r.p="",r(r.s=0)}([function(t,e,r){"use strict";r.r(e),r.d(e,"getCache",(function(){return s}));var n=function(){function t(t){if(!t.key)throw new Error("A unique id must be set");this.cacheId="cacher-"+t.key,this.timeUnits={days:1440,hours:60,minutes:1},this.setConfig(t)}return t.prototype.setConfig=function(t){this.storage=t.storage||sessionStorage,this.archiveIfExpired=t.archiveIfExpired||!1,this.setExpiration(t.expiration)},t.prototype.getKey=function(){return this.cacheId},t.prototype.setItem=function(t,e,r){if(this.hasValue(t,e))return this.storage.setItem(this.cacheKey(t),JSON.stringify(this.buildCachedItem(e,r)))},t.prototype.cacheKey=function(t){return t+"-"+this.cacheId},t.prototype.getItem=function(t,e){if(!this.storage.getItem(this.cacheKey(t))||!t)return null;var r=this.getResource(this.cacheKey(t));return this.returnIfNotExpired(r,this.cacheKey(t),e)},t.prototype.removeItem=function(t,e){if(e&&e.amount&&e.unit)return this.archive(t,e);this.storage.removeItem(t)},t.prototype.archive=function(t,e){var r=JSON.parse(this.storage.getItem(t));if(r&&r.value){var n="deleted-"+this.cacheKey(t);return this.setItem(n,r,e),this.storage.removeItem(t),n}},t.prototype.clear=function(){this.storage.clear()},t.prototype.setExpiration=function(t){if("object"!=typeof t)return this.expiration={amount:30,unit:"minutes",neverExpire:!1};(t.amount&&t.unit||t.neverExpire)&&(this.expiration=t)},t.prototype.futureMinutes=function(t){return t&&t.unit&&this.timeUnits[t.unit]?t.amount*this.timeUnits[t.unit]:this.expiration.amount*this.timeUnits[this.expiration.unit]},t.prototype.expiresAt=function(t){if(!(t&&t.neverExpire||this.expiration.neverExpire)){var e=new Date;return e.setMinutes(e.getMinutes()+this.futureMinutes(t))}},t.prototype.neverExpires=function(t){return t&&t.neverExpire||!0===this.expiration.neverExpire},t.prototype.buildCachedItem=function(t,e){return{value:t,expiresAt:this.expiresAt(e),neverExpire:this.neverExpires(e),expiration:e||this.expiration}},t.prototype.hasValue=function(t,e){return void 0!==e&&void 0!==t},t.prototype.expiresAtIsStillInFuture=function(t){return Date.now()<t.expiresAt},t.prototype.getResource=function(t){return JSON.parse(this.storage.getItem(t))},t.prototype.returnIfNotExpired=function(t,e,r){return this.neverExpires(t)||this.expiresAtIsStillInFuture(t)?t:r||this.archiveIfExpired?(this.archive(e,t.expiration),t):(console.log("CACHED BUSTED FOR: "+e),this.storage.removeItem(e),null)},t}(),i=function(t,e,r,n){return new(r||(r=Promise))((function(i,o){function u(t){try{a(n.next(t))}catch(t){o(t)}}function s(t){try{a(n.throw(t))}catch(t){o(t)}}function a(t){var e;t.done?i(t.value):(e=t.value,e instanceof r?e:new r((function(t){t(e)}))).then(u,s)}a((n=n.apply(t,e||[])).next())}))},o=function(t,e){var r,n,i,o,u={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return o={next:s(0),throw:s(1),return:s(2)},"function"==typeof Symbol&&(o[Symbol.iterator]=function(){return this}),o;function s(o){return function(s){return function(o){if(r)throw new TypeError("Generator is already executing.");for(;u;)try{if(r=1,n&&(i=2&o[0]?n.return:o[0]?n.throw||((i=n.return)&&i.call(n),0):n.next)&&!(i=i.call(n,o[1])).done)return i;switch(n=0,i&&(o=[2&o[0],i.value]),o[0]){case 0:case 1:i=o;break;case 4:return u.label++,{value:o[1],done:!1};case 5:u.label++,n=o[1],o=[0];continue;case 7:o=u.ops.pop(),u.trys.pop();continue;default:if(!(i=u.trys,(i=i.length>0&&i[i.length-1])||6!==o[0]&&2!==o[0])){u=0;continue}if(3===o[0]&&(!i||o[1]>i[0]&&o[1]<i[3])){u.label=o[1];break}if(6===o[0]&&u.label<i[1]){u.label=i[1],i=o;break}if(i&&u.label<i[2]){u.label=i[2],u.ops.push(o);break}i[2]&&u.ops.pop(),u.trys.pop();continue}o=e.call(t,u)}catch(t){o=[6,t],n=0}finally{r=i=0}if(5&o[0])throw o[1];return{value:o[0]?o[1]:void 0,done:!0}}([o,s])}}},u=function(){function t(t){this.storage=t}return t.prototype.either=function(t){for(var e=this,r=[],n=1;n<arguments.length;n++)r[n-1]=arguments[n];try{return"AsyncFunction"===t.constructor.name?i(e,void 0,void 0,(function(){return o(this,(function(e){switch(e.label){case 0:return[4,t.apply(void 0,r)];case 1:return[2,e.sent()]}}))})):t.apply(void 0,r)}catch(t){console.error(t)}},t.prototype.getItem=function(t){return this.either(this.storage.getItem,t)},t.prototype.setItem=function(t,e){return this.either(this.storage.setItem,t,e)},t.prototype.clear=function(){return this.either(this.storage.clear)},t.prototype.removeItem=function(){return this.either(this.storage.removeItem)},t.prototype.archive=function(){return this.either(this.storage.archive)},t}(),s=function(t,e){return t.storage=new u(t.storage),new n(t)}}])}));
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["SimpleCache"] = factory();
+	else
+		root["SimpleCache"] = factory();
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/factory.ts");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/async-decorator.ts":
+/*!********************************!*\
+  !*** ./src/async-decorator.ts ***!
+  \********************************/
+/*! exports provided: StorageAsyncDecorator */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"StorageAsyncDecorator\", function() { return StorageAsyncDecorator; });\nvar __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\n    return new (P || (P = Promise))(function (resolve, reject) {\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\n    });\n};\nvar __generator = (undefined && undefined.__generator) || function (thisArg, body) {\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\n    function verb(n) { return function (v) { return step([n, v]); }; }\n    function step(op) {\n        if (f) throw new TypeError(\"Generator is already executing.\");\n        while (_) try {\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\n            if (y = 0, t) op = [op[0] & 2, t.value];\n            switch (op[0]) {\n                case 0: case 1: t = op; break;\n                case 4: _.label++; return { value: op[1], done: false };\n                case 5: _.label++; y = op[1]; op = [0]; continue;\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\n                default:\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\n                    if (t[2]) _.ops.pop();\n                    _.trys.pop(); continue;\n            }\n            op = body.call(thisArg, _);\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\n    }\n};\nvar StorageAsyncDecorator = /** @class */ (function () {\n    function StorageAsyncDecorator(storageDriver) {\n        this.setStorage(storageDriver);\n    }\n    StorageAsyncDecorator.prototype.setStorage = function (storageDriver) {\n        if (Object.is(localStorage, storageDriver))\n            this.storageDriver = \"localStorage\";\n        if (Object.is(sessionStorage, storageDriver))\n            this.storageDriver = \"sessionStorage\";\n        if (this.isPlainObject(storageDriver))\n            this.storageDriver = storageDriver;\n    };\n    StorageAsyncDecorator.prototype.isPlainObject = function (storageDriver) {\n        return Object.prototype.toString.call(storageDriver) === '[object Object]';\n    };\n    ;\n    StorageAsyncDecorator.prototype.either = function (fn) {\n        var _a;\n        var _this = this;\n        var args = [];\n        for (var _i = 1; _i < arguments.length; _i++) {\n            args[_i - 1] = arguments[_i];\n        }\n        try {\n            if (fn.constructor.name === this.storage[fn]) {\n                return (function () { return __awaiter(_this, void 0, void 0, function () {\n                    var _a;\n                    return __generator(this, function (_b) {\n                        switch (_b.label) {\n                            case 0: return [4 /*yield*/, (_a = this.storage)[fn].apply(_a, args)];\n                            case 1: return [2 /*return*/, _b.sent()];\n                        }\n                    });\n                }); })();\n            }\n            return (_a = this.storage)[fn].apply(_a, args);\n        }\n        catch (error) {\n            console.error(error);\n        }\n    };\n    Object.defineProperty(StorageAsyncDecorator.prototype, \"storage\", {\n        get: function () {\n            if (window && typeof this.storageDriver === \"string\")\n                return window[this.storageDriver];\n            if (this.isPlainObject(this.storageDriver))\n                return this.storageDriver;\n            throw new Error(\"storage driver is not set!\");\n        },\n        enumerable: false,\n        configurable: true\n    });\n    StorageAsyncDecorator.prototype.getItem = function (key) {\n        return this.either(\"getItem\", key);\n    };\n    StorageAsyncDecorator.prototype.setItem = function (key, value) {\n        return this.either(\"setItem\", key, value);\n    };\n    StorageAsyncDecorator.prototype.clear = function () {\n        return this.either(\"clear\");\n    };\n    StorageAsyncDecorator.prototype.removeItem = function () {\n        return this.either(\"removeItem\");\n    };\n    StorageAsyncDecorator.prototype.archive = function () {\n        return this.either(\"archive\");\n    };\n    return StorageAsyncDecorator;\n}());\n\n\n\n//# sourceURL=webpack://SimpleCache/./src/async-decorator.ts?");
+
+/***/ }),
+
+/***/ "./src/cacher.ts":
+/*!***********************!*\
+  !*** ./src/cacher.ts ***!
+  \***********************/
+/*! exports provided: Cacher */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Cacher\", function() { return Cacher; });\nvar Cacher = /** @class */ (function () {\n    function Cacher(config) {\n        if (!config.key) {\n            throw new Error(\"A unique id must be set\");\n        }\n        this.cacheId = \"cacher-\" + config.key;\n        this.timeUnits = {\n            \"days\": 1440,\n            \"hours\": 60,\n            \"minutes\": 1,\n        };\n        this.setConfig(config);\n    }\n    Cacher.prototype.getKey = function () {\n        return this.cacheId;\n    };\n    Cacher.prototype.setConfig = function (config) {\n        this.storage = config.storage;\n        this.archiveIfExpired = config.archiveIfExpired || false;\n        this.setExpiration(config.expiration);\n    };\n    Cacher.prototype.setItem = function (key, value, expiration) {\n        if (this.hasValue(key, value)) {\n            return this.storage.setItem(this.cacheKey(key), JSON.stringify(this.buildCachedItem(value, expiration)));\n        }\n    };\n    Cacher.prototype.cacheKey = function (key) {\n        return key + \"-\" + this.cacheId;\n    };\n    Cacher.prototype.getItem = function (key, archiveIfExpired) {\n        if (!this.storage.getItem(this.cacheKey(key)) || !key)\n            return null;\n        var resource = this.getResource(this.cacheKey(key));\n        return this.returnIfNotExpired(resource, this.cacheKey(key), archiveIfExpired);\n    };\n    Cacher.prototype.removeItem = function (key, expiration) {\n        if (expiration && expiration.amount && expiration.unit) {\n            return this.archive(key, expiration);\n        }\n        this.storage.removeItem(key);\n    };\n    Cacher.prototype.archive = function (key, expiration) {\n        var item = JSON.parse(this.storage.getItem(key));\n        if (item && item.value) {\n            var archiveKey = \"deleted-\" + this.cacheKey(key);\n            this.setItem(archiveKey, item, expiration);\n            this.storage.removeItem(key);\n            return archiveKey;\n        }\n    };\n    Cacher.prototype.clear = function () {\n        this.storage.clear();\n    };\n    Cacher.prototype.setExpiration = function (expiration) {\n        if (typeof expiration !== \"object\") {\n            return this.expiration = {\n                amount: 30,\n                unit: \"minutes\",\n                neverExpire: false\n            };\n        }\n        if ((expiration.amount && expiration.unit) || expiration.neverExpire) {\n            this.expiration = expiration;\n        }\n    };\n    Cacher.prototype.futureMinutes = function (expiration) {\n        return expiration && expiration.unit && this.timeUnits[expiration.unit]\n            ? expiration.amount * this.timeUnits[expiration.unit]\n            : this.expiration.amount * this.timeUnits[this.expiration.unit];\n    };\n    Cacher.prototype.expiresAt = function (expiration) {\n        if ((expiration && expiration.neverExpire) || this.expiration.neverExpire)\n            return;\n        var now = new Date();\n        return now.setMinutes(now.getMinutes() + this.futureMinutes(expiration));\n    };\n    Cacher.prototype.neverExpires = function (object) {\n        return (object && object.neverExpire) || this.expiration.neverExpire === true;\n    };\n    Cacher.prototype.buildCachedItem = function (value, expiration) {\n        return {\n            value: value,\n            expiresAt: this.expiresAt(expiration),\n            neverExpire: this.neverExpires(expiration),\n            expiration: expiration ? expiration : this.expiration,\n        };\n    };\n    Cacher.prototype.hasValue = function (key, value) {\n        return value !== undefined && key !== undefined;\n    };\n    Cacher.prototype.expiresAtIsStillInFuture = function (resource) {\n        return Date.now() < resource.expiresAt;\n    };\n    Cacher.prototype.getResource = function (key) {\n        return JSON.parse(this.storage.getItem(key));\n    };\n    Cacher.prototype.returnIfNotExpired = function (resource, key, archiveIfExpired) {\n        if (this.neverExpires(resource) || this.expiresAtIsStillInFuture(resource)) {\n            return resource;\n        }\n        if (archiveIfExpired || this.archiveIfExpired) {\n            this.archive(key, resource.expiration);\n            return resource;\n        }\n        ;\n        console.log(\"CACHED BUSTED FOR: \" + key);\n        this.storage.removeItem(key);\n        return null;\n    };\n    return Cacher;\n}());\n\n\n\n//# sourceURL=webpack://SimpleCache/./src/cacher.ts?");
+
+/***/ }),
+
+/***/ "./src/factory.ts":
+/*!************************!*\
+  !*** ./src/factory.ts ***!
+  \************************/
+/*! exports provided: getCache */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getCache\", function() { return getCache; });\n/* harmony import */ var _cacher__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cacher */ \"./src/cacher.ts\");\n/* harmony import */ var _async_decorator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./async-decorator */ \"./src/async-decorator.ts\");\n\n\nvar getCache = function (config) {\n    config.storage = new _async_decorator__WEBPACK_IMPORTED_MODULE_1__[\"StorageAsyncDecorator\"](config.storage);\n    return new _cacher__WEBPACK_IMPORTED_MODULE_0__[\"Cacher\"](config);\n};\n\n\n//# sourceURL=webpack://SimpleCache/./src/factory.ts?");
+
+/***/ })
+
+/******/ });
+});

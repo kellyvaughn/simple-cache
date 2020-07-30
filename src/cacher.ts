@@ -22,27 +22,14 @@ export class Cacher {
     this.setConfig(config);
   }
 
-  setConfig(config: CacherConfig) {
-    this.setStorage(config);
-    this.archiveIfExpired = config.archiveIfExpired || false;
-    this.setExpiration(config.expiration)
-  }
-
-  setStorage(config: CacherConfig) {
-    if (window && config.storage instanceof Storage) {
-      this.storage = {
-        getItem: config.storage.getItem.bind(window),
-        setItem: config.storage.setItem.bind(window),
-        removeItem: config.storage.removeItem.bind(window),
-        clear: config.storage.clear.bind(window),
-      }
-    } else {
-      this.storage = config.storage;
-    }
-  }
-
   getKey() {
     return this.cacheId;
+  }
+
+  setConfig(config: CacherConfig) {
+    this.storage = config.storage;
+    this.archiveIfExpired = config.archiveIfExpired || false;
+    this.setExpiration(config.expiration)
   }
 
   setItem(key: string, value: any, expiration?: IExpirationSettings)  {
