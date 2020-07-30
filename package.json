@@ -29,5 +29,4 @@
     "webpack-dev-server": "^3.11.0"
   },
   "repository": "git@github.com:the-taproom/simple-cache.git",
-  "private": true
 }
