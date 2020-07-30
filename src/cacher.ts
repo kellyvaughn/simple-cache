@@ -42,6 +42,7 @@ export class Cacher {
   }
 
   cacheKey(key: string) {
+    if (`${key}-${this.cacheId}` === key) return key;
     return `${key}-${this.cacheId}`;
   }
 
@@ -59,7 +60,7 @@ export class Cacher {
     if (expiration && expiration.amount && expiration.unit) {
       return this.archive(key, expiration);
     }
-    this.storage.removeItem(key);
+    this.storage.removeItem(this.cacheKey(key));
   }
 
   archive(key: string, expiration: IExpirationSettings): string|null {
@@ -72,7 +73,7 @@ export class Cacher {
         expiration
       );
 
-      this.storage.removeItem(key);
+      this.storage.removeItem(this.cacheKey(key));
       return archiveKey;
     }
   }
