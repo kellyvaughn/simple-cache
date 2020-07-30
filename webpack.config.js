@@ -16,11 +16,11 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   output: {
-    filename: './frontend-cacher.js',
+    filename: './index.js',
     path: path.resolve(__dirname),
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './'
   },
   watch: true
 };
