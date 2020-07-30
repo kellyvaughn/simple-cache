@@ -49,8 +49,8 @@ export class StorageAsyncDecorator implements StorageLike {
     return this.either("clear");
   }
 
-  removeItem() {
-    return this.either("removeItem");
+  removeItem(key: string) {
+    return this.either("removeItem", key);
   }
 
   archive() {
