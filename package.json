@@ -28,5 +28,5 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
-  "repository": "git@github.com:the-taproom/simple-cache.git",
+  "repository": "git@github.com:the-taproom/simple-cache.git"
 }
