@@ -41,7 +41,7 @@ export class StorageAsyncDecorator implements StorageLike {
     return this.either("getItem", key);
   }
 
-  setItem(key: string, value: string) {
+  setItem(key: string, value: any) {
     return this.either("setItem", key, value);
   }
 
