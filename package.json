@@ -1,6 +1,6 @@
 {
   "name": "@thetaproom/simple-cache",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A tiny, zero-dependency library which implements additional utilities on top of the Storage API we're all used to.",
   "main": "./index.js",
   "scripts": {
