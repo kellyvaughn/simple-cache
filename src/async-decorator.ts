@@ -1,13 +1,15 @@
 import { StorageLike } from "./interfaces";
 
 export class StorageAsyncDecorator implements StorageLike {
-  constructor(public storage: StorageLike) {}
+  constructor(public storage: StorageLike) {
+    this.storage = storage;
+  }
 
   either(fn: (...args: any) => any | Promise<any>, ...args: any) {
     try {
       if (fn.constructor.name === "AsyncFunction") {
         return (async () => {
-          return await fn(...args)
+          return await fn(...args);
         })()
       }
 
