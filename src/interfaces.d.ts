@@ -2,6 +2,7 @@ export interface CacherConfig {
   storage?: StorageLike
   expiration?: IExpirationSettings
   archiveIfExpired ?: boolean
+  key: string
 }
 
 export interface IExpirationSettings {

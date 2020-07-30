@@ -16,8 +16,10 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   output: {
-    filename: './index.js',
     path: path.resolve(__dirname),
+    filename: "index.js",
+    library: 'SimpleCache',
+    libraryTarget: 'umd'
   },
   devServer: {
     contentBase: './'

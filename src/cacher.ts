@@ -3,16 +3,16 @@ import { CacherConfig, IExpirationSettings, IResource, Promisified, StorageLike,
 export class Cacher {
   private storage: StorageLike;
   private expiration: IExpirationSettings;
-  private readonly timeUnits: object;
+  private timeUnits: object;
   private archiveIfExpired: boolean;
-  private readonly cacheId: string;
+  private cacheId: string;
 
-  constructor(config: CacherConfig, key: string) {
-    if (!key) {
+  constructor(config: CacherConfig) {
+    if (!config.key) {
       throw new Error("A unique id must be set");
     }
 
-    this.cacheId = `cacher-${key}`;
+    this.cacheId = `cacher-${config.key}`;
     this.timeUnits = {
       "days": 1440,
       "hours": 60,

@@ -1,6 +1,6 @@
 {
-  "name": "simple-cache",
-  "version": "1.0.1",
+  "name": "@thetaproom/simple-cache",
+  "version": "1.0.5",
   "description": "A tiny, zero-dependency library which implements additional utilities on top of the Storage API we're all used to.",
   "main": "./index.js",
   "scripts": {
@@ -28,5 +28,13 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
-  "repository": "git@github.com:the-taproom/simple-cache.git"
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/the-taproom/simple-cache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/the-taproom/simple-cache/issues"
+  },
+  "homepage": "https://github.com/the-taproom/simple-cache#readme",
+  "dependencies": {}
 }

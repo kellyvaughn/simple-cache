@@ -9,7 +9,7 @@ describe("Cacher base", () => {
 
   beforeEach(() => {
     data = { test: "test" };
-    Cacher = new CacherInstance(getConfig(), "testing");
+    Cacher = new CacherInstance(getConfig());
   });
 
   afterEach(() => {

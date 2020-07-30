@@ -11,6 +11,7 @@ export const hoursInTheFuture = (hours: number) => {
 
 export const getConfig = () => {
   return {
+    key: "never-changing-key",
     storage: {
       getItem: jest.fn(() => JSON.stringify({ value: { test: "test" }, expiresAt: hoursInTheFuture(1) })),
       setItem: jest.fn(),
