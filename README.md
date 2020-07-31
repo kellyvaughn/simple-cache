@@ -82,10 +82,6 @@ The utility class implements the same interface you're used with the native (Sto
     cache.removeItem("resource", expiration)
 
     /**
-     * remove resource, no archive
-     */
-    cache.removeItem("resource")
-    /**
      * change the global configuration later in the appliction
      * lifecycle
      */
