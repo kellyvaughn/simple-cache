@@ -66,7 +66,7 @@ export class Cacher {
   archive(key: string, expiration: IExpirationSettings): string|null {
     const item = JSON.parse(this.storage.getItem(key));
     if (item && item.value) {
-      const archiveKey = `deleted-${this.cacheKey(key)}`;
+      const archiveKey = `deleted-${this.cacheKey(key)}-${Date.now()}`;
       this.setItem(
         archiveKey,
         item,

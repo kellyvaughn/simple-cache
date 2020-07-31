@@ -26,6 +26,14 @@ export interface StorageLike {
   [name: string]: any;
 }
 
+export interface ArchiveKeys {
+  [name: string]: string[];
+}
+
+export interface ArchiveMap {
+  keys: ArchiveKeys
+}
+
 export interface StorageLikeAsync {
   clear(): Promise<void> | void;
   getItem(key: string): Promise<string | null> | string | null;
